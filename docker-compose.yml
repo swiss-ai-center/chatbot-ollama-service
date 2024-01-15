@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  chatbot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    environment:
+      LLM_BASE_URL: "http://ollama-api:11434"
+
+  ollama-api:
+    image: ollama/ollama
+    ports:
+      - "11434:11434"
+    entrypoint: /bin/bash
+    command:
+      - -c
+      - |
+        ollama serve &
+        # wait for ollama to start bigger number may be needed for slower machines
+        sleep 10
+        ollama pull mistral:instruct
+        sleep infinity

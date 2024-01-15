@@ -1,0 +1,82 @@
+Metadata-Version: 2.1
+Name: ticc4chat
+Version: 2023.11.9
+Summary: Chatbot for question answering over document
+Author: TICc
+Classifier: Programming Language :: Python :: 3
+Description-Content-Type: text/x-rst
+License-File: LICENSE
+Requires-Dist: langchain
+Requires-Dist: langchain-community
+Requires-Dist: python-dotenv
+Requires-Dist: sentence_transformers
+Requires-Dist: pypdf
+Requires-Dist: pymupdf
+Requires-Dist: faiss-cpu
+Requires-Dist: loguru
+Provides-Extra: dev
+Requires-Dist: black; extra == "dev"
+Requires-Dist: flake8==4.0.1; extra == "dev"
+Requires-Dist: flake8-html; extra == "dev"
+Requires-Dist: jupyter; extra == "dev"
+Requires-Dist: sphinx; extra == "dev"
+Requires-Dist: pre-commit; extra == "dev"
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: tox; extra == "dev"
+Requires-Dist: coverage; extra == "dev"
+Requires-Dist: genbadge; extra == "dev"
+Requires-Dist: jupyter-book; extra == "dev"
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
+Requires-Dist: tox; extra == "test"
+Requires-Dist: coverage; extra == "test"
+Requires-Dist: black; extra == "test"
+Requires-Dist: flake8==4.0.1; extra == "test"
+Requires-Dist: flake8-html; extra == "test"
+Requires-Dist: genbadge; extra == "test"
+Provides-Extra: ui
+Requires-Dist: streamlit; extra == "ui"
+
+![](static/img/logo_hearc.png)
+
+# Ticc4Chat
+
+![Tests Status: run ">>> make badges" if missing](./reports/badges/tests-badge.svg)
+![Coverage Status: run ">>> make badges" if missing](./reports/badges/coverage-badge.svg)
+![flake8 Status: run ">>> make badges" if missing](./reports/badges/flake8-badge.svg)
+
+Chatbot for question answering over document
+
+Please read the documentation for further information
+
+## Project Organization
+
+    ├── LICENSE
+    ├── Makefile           <- Makefile
+    |
+    ├── README.md          <- The top-level README for developers using this project.
+    │
+    ├── controller         <- Controller (routes) for the api (FastAPI)
+    ├── data               <- Folder to store data that should not be uploaded to the repository.
+    │
+    ├── tests
+    │   └── fixture
+    │   |   └── __init__.py
+    │   |
+    │   └── __init__.py
+    │   └── conftest.py            <- pytest configuration
+    │   └── test_import.py         <- test the import of the module
+    │
+    ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
+    │
+    ├── models             <- Trained and serialized models, model predictions, or model summaries
+    │
+    ├── notebooks          <- Jupyter notebooks.
+    ├── pyproject.toml     <- makes a project pip installable
+    ├── setup.py
+    ├── src                <- Source code for use in this project.
+    │   └── ticc4chat    <- Makes a Python module
+    │       |
+    │       └── __init__.py
+    │
+    └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
