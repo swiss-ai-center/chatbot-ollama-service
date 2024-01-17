@@ -6,6 +6,7 @@ pypdf
 pymupdf
 faiss-cpu
 loguru
+Werkzeug==2.3.6
 
 [dev]
 black
