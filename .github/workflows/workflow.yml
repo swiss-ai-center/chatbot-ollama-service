@@ -73,7 +73,7 @@ jobs:
           python-app-path: .
 
   release:
-    needs: test
+    needs: review
     runs-on: ubuntu-latest
     if: ${{ vars.RUN_CICD == 'true' && success() && (vars.DEPLOY_DEV == 'true' || vars.DEPLOY_PROD == 'true') }}
     steps:
