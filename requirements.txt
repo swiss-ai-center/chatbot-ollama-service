@@ -7,3 +7,4 @@ pypdf==3.17.4
 PyMuPDF==1.23.3
 faiss-cpu==1.7.4
 Werkzeug==2.3.6
+streamlit==1.30.0
