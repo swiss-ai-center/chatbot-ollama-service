@@ -14,8 +14,10 @@ def prepare_model(
     Prepare the model.
 
     Args:
-        model_name (str, optional): name of the model to use. If left empty, will try to get it from the environment variable LLM_MODEL_NAME. Defaults to None.
-        base_url (str, optional): base url of the model to use. If left empty, will try to get it from the environment variable LLM_BASE_URL. Defaults to None.
+        model_name (str, optional): name of the model to use. If left empty, will try to get it from the environment
+        variable LLM_MODEL_NAME. Defaults to None.
+        base_url (str, optional): base url of the model to use. If left empty, will try to get it from the environment
+        variable LLM_BASE_URL. Defaults to None.
         temperature (float, optional): temperature for the model generation. Defaults to 0.1.
         callback_manager (CallbackManager, optional): callback manager to use. Defaults to None.
 
