@@ -1,4 +1,4 @@
-common-code[test] @ git+https://github.com/swiss-ai-center/common-code.git@main
+common-code[test] @ git+https://github.com/swiss-ai-center/common-code.git@e3917e24a592c91af2f4e374357324c29d7f7ae1
 langchain==0.0.261
 langchain-community==0.0.11
 python-dotenv==1.0.0
@@ -6,4 +6,4 @@ sentence-transformers==2.2.2
 pypdf==3.17.4
 PyMuPDF==1.23.3
 faiss-cpu==1.7.4
-logWerkzeug==2.3.6
+Werkzeug==2.3.6
