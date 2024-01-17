@@ -87,6 +87,7 @@ jobs:
           echo "SERVICE_DOCKER_IMAGE_SHA_TAG=$docker_image_sha_tag" >> "$GITHUB_ENV"
 
       - name: Prepare configuration files
+        working-directory: kubernetes
         env:
           SERVICE_URL: ${{ env.DEV_SERVICE_URL }}
         run: |
@@ -143,6 +144,7 @@ jobs:
           echo "SERVICE_DOCKER_IMAGE_SHA_TAG=$docker_image_sha_tag" >> "$GITHUB_ENV"
 
       - name: Prepare configuration files
+        working-directory: kubernetes
         env:
           SERVICE_URL: ${{ env.PROD_SERVICE_URL}}
         run: |
