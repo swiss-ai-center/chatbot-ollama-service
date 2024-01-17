@@ -12,7 +12,6 @@ Requires-Dist: sentence_transformers
 Requires-Dist: pypdf
 Requires-Dist: pymupdf
 Requires-Dist: faiss-cpu
-Requires-Dist: loguru
 Requires-Dist: Werkzeug==2.3.6
 Provides-Extra: dev
 Requires-Dist: black; extra == "dev"

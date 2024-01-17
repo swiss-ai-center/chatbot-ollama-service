@@ -110,7 +110,6 @@ langsmith==0.0.79
 latexcodec==2.0.1
 libclang==16.0.6
 linkify-it-py==2.0.2
-loguru==0.7.2
 lxml==4.9.3
 Markdown==3.4.4
 markdown-it-py==2.2.0

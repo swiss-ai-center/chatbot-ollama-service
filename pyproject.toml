@@ -17,7 +17,6 @@ dependencies = [
     "pypdf",
     "pymupdf",
     "faiss-cpu",
-    "loguru",
     "Werkzeug==2.3.6"
 ]
 dynamic = ["version", "readme"]
