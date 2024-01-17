@@ -1,5 +1,6 @@
 common-code[test] @ git+https://github.com/swiss-ai-center/common-code.git@main
 langchain==0.1.1
+langchain-community==0.0.13
 python-dotenv==1.0.0
 sentence-transformers==2.2.2
 pypdf==3.17.4
