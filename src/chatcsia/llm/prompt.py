@@ -1,23 +1,4 @@
-import os
-
 from langchain.prompts import PromptTemplate
-
-
-def prepare_prompt(language: str = None) -> PromptTemplate:
-    """
-    Prepare the prompt.
-
-    Args:
-        language (str, optional): language to use. Defaults to environment variable LLM_LANGUAGE or "en".
-
-    Raises:
-        ValueError: if language is not supported
-
-    Returns:
-        PromptTemplate: prompt template
-    """
-
-    return prepare_prompt()
 
 
 def prepare_prompt() -> PromptTemplate:

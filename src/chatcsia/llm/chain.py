@@ -6,8 +6,8 @@ from langchain.llms.ollama import Ollama
 from langchain.prompts import PromptTemplate
 from langchain.vectorstores.faiss import FAISS
 
-from ticc4chat.llm.llm import prepare_model
-from ticc4chat.llm.prompt import prepare_prompt
+from chatcsia.llm.llm import prepare_model
+from chatcsia.llm.prompt import prepare_prompt
 
 
 def prepare_chain(
@@ -17,8 +17,10 @@ def prepare_chain(
     Prepares a retrieval-based question answering system based on a given machine and language.
 
     Args:
-        llm (Ollama, optional): The LLM model to use for the question answering system. If not provided, the default model is used.
-        prompt (PromptTemplate, optional): The prompt to use for the question answering system. If not provided, the default prompt is used.
+        llm (Ollama, optional): The LLM model to use for the question answering system. If not provided,
+        the default model is used.
+        prompt (PromptTemplate, optional): The prompt to use for the question answering system. If not provided,
+        the default prompt is used.
 
     Returns:
         ConversationalRetrievalChain: A retrieval-based question answering system based on the given parameters.
@@ -79,16 +81,18 @@ def ask_chain(query: str, chain: ConversationalRetrievalChain) -> str:
         }
     )
 
-    # not interested in the whole path just the name and extension
-    prepare_document = lambda x: x if x is None else os.path.basename(x)
+    def prepare_document(x):
+        return x if x is None else os.path.basename(x)
 
-    prepare_page = lambda x: x if x is None else int(x) + 1
+    def prepare_page(x):
+        return x if x is None else int(x) + 1
 
-    prepare_source = lambda x: {
-        "document": prepare_document(x.metadata.get("source", None)),
-        "page": prepare_page(x.metadata.get("page", None)),
-        "chunk": x.page_content,
-    }
+    def prepare_source(x):
+        return {
+            "document": prepare_document(x.metadata.get("source", None)),
+            "page": prepare_page(x.metadata.get("page", None)),
+            "chunk": x.page_content,
+        }
 
     return {
         "answer": result.get("answer"),

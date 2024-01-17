@@ -6,8 +6,7 @@ import streamlit as st
 from dotenv import load_dotenv
 from PIL import Image
 
-from ticc4chat._version import __version__
-from ticc4chat.llm.chain import ask_chain, prepare_chain
+from chatcsia.llm.chain import ask_chain, prepare_chain
 
 load_dotenv()
 

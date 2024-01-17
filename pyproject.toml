@@ -5,9 +5,9 @@ requires = ["setuptools>=43.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "ticc4chat"
+name = "chatcsia"
 description = "Chatbot for question answering over document"
-authors = [{ name = "TICc" }]
+authors = [{ name = "Swiss Ai Center" }]
 classifiers = ["Programming Language :: Python :: 3"]
 dependencies = [
     "langchain",
@@ -22,7 +22,7 @@ dependencies = [
 dynamic = ["version", "readme"]
 
 [tool.setuptools.dynamic]
-version = { attr = "ticc4chat.__version__" }
+version = { attr = "chatcsia.__version__" }
 readme = { file = ["README.md"] }
 
 
@@ -54,10 +54,10 @@ ui = ["streamlit"]
 [tool.setuptools.packages.find]
 where = ["src"] # list of folders that contain the packages (["."] by default)
 include = [
-    "ticc4chat*",
+    "chatcsia*",
 ] # package names should match these glob patterns (["*"] by default)
 exclude = [
-    "ticc4chat.tests*",
+    "chatcsia.tests*",
 ] # exclude packages matching these glob patterns (empty by default)
 namespaces = false # to disable scanning PEP 420 namespaces (true by default)
 
