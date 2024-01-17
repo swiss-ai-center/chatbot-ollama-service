@@ -255,7 +255,6 @@ tensorflow-io-gcs-filesystem==0.34.0
 termcolor==2.3.0
 terminado==0.18.0
 threadpoolctl==3.2.0
--e git+ssh://git@labinfo.ing.he-arc.ch/jonathan.guerne/ticc4chat.git@5e15e490ad1e4565f491e7f0168e9c9ce8be8eb6#egg=ticc4chat
 tinycss2==1.2.1
 tokenizers==0.15.0
 toml==0.10.2
