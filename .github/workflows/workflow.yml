@@ -8,38 +8,18 @@ env:
   SERVICE_NAME: ${{ vars.SERVICE_NAME }}
 
   ## Development environment variables
-  # The URLs of the Core Engine to which the service should connect
-  DEV_CORE_ENGINE_URLS: ${{ vars.DEV_CORE_ENGINE_URLS }}
   # The URL that the service (dev) should be accessible at
   DEV_SERVICE_URL: ${{ vars.DEV_SERVICE_URL }}
   # The Kubernetes namespace that the service should be deployed to
   DEV_NAMESPACE: ${{ vars.DEV_NAMESPACE }}
-  # Maximum number of tasks the service can accept
-  DEV_MAX_TASKS: ${{ vars.DEV_MAX_TASKS }}
-  # Number of retries on the Engine for announcement
-  DEV_ENGINE_ANNOUNCE_RETRIES: ${{ vars.DEV_ENGINE_ANNOUNCE_RETRIES }}
-  # Delay between each retry
-  DEV_ENGINE_ANNOUNCE_RETRY_DELAY: ${{ vars.DEV_ENGINE_ANNOUNCE_RETRY_DELAY }}
-  # Logging level
-  DEV_LOG_LEVEL: ${{ vars.DEV_LOG_LEVEL }}
   # Kube configuration
   DEV_KUBE_CONFIG: ${{ secrets.DEV_KUBE_CONFIG }}
 
   ## Production environment variables
-  # The URLs of the Core Engine to which the service should connect
-  PROD_CORE_ENGINE_URLS: ${{ vars.PROD_CORE_ENGINE_URLS }}
   # The URL that the service (dev) should be accessible at
   PROD_SERVICE_URL: ${{ vars.PROD_SERVICE_URL }}
   # The Kubernetes namespace that the service should be deployed to
   PROD_NAMESPACE: ${{ vars.PROD_NAMESPACE }}
-  # Maximum number of tasks the service can accept
-  PROD_MAX_TASKS: ${{ vars.PROD_MAX_TASKS }}
-  # Number of retries on the Engine for announcement
-  PROD_ENGINE_ANNOUNCE_RETRIES: ${{ vars.PROD_ENGINE_ANNOUNCE_RETRIES }}
-  # Delay between each retry
-  PROD_ENGINE_ANNOUNCE_RETRY_DELAY: ${{ vars.PROD_ENGINE_ANNOUNCE_RETRY_DELAY }}
-  # Logging level
-  PROD_LOG_LEVEL: ${{ vars.PROD_LOG_LEVEL }}
   # Kube configuration
   PROD_KUBE_CONFIG: ${{ secrets.DEV_KUBE_CONFIG }}
 
@@ -107,18 +87,32 @@ jobs:
           echo "SERVICE_DOCKER_IMAGE_SHA_TAG=$docker_image_sha_tag" >> "$GITHUB_ENV"
 
       - name: Prepare configuration files
-        uses: swiss-ai-center/common-code/.github/actions/prepare-kubernetes-configuration-files@main
-        with:
-          service-name: ${{ env.SERVICE_NAME }}
-          service-url: ${{ env.DEV_SERVICE_URL }}
-          service-docker-image-tag: ${{ env.SERVICE_DOCKER_IMAGE_SHA_TAG }}
-          configuration-files-location: ./kubernetes
-          environment: development
-          log-level: ${{ env.DEV_LOG_LEVEL }}
-          engine-urls: ${{ env.DEV_CORE_ENGINE_URLS }}
-          max-tasks: ${{ env.DEV_MAX_TASKS }}
-          engine-announce-retries: ${{ env.DEV_ENGINE_ANNOUNCE_RETRIES }}
-          engine-announce-retry-delay: ${{ env.DEV_ENGINE_ANNOUNCE_RETRY_DELAY }}
+        env:
+          SERVICE_URL: ${{ env.DEV_SERVICE_URL }}
+        run: |
+          # Set service configuration (ConfigMap)
+          yq ".metadata.name = \"${{ env.SERVICE_NAME }}-config\"" config-map.yml > new-config-map.yml && mv new-config-map.yml config-map.yml
+          yq ".metadata.labels.app = \"${{ env.SERVICE_NAME}}\"" config-map.yml > new-config-map.yml && mv new-config-map.yml config-map.yml
+
+          # Set service configuration (Ingress)
+          yq ".metadata.name = \"${{ env.SERVICE_NAME}}-ingress\"" ingress.yml > new-ingress.yml && mv new-ingress.yml ingress.yml
+          yq ".spec.rules[0].host = \"${SERVICE_URL#*://}\"" ingress.yml > new-ingress.yml && mv new-ingress.yml ingress.yml
+          yq ".spec.rules[0].http.paths[0].backend.service.name = \"${{ env.SERVICE_NAME}}-service\"" ingress.yml > new-ingress.yml && mv new-ingress.yml ingress.yml
+          yq ".spec.tls[0].hosts[0] = \"${SERVICE_URL#*://}\"" ingress.yml > new-ingress.yml && mv new-ingress.yml ingress.yml
+
+          # Set service configuration (Service)
+          yq ".metadata.name = \"${{ env.SERVICE_NAME}}-service\"" service.yml > new-service.yml && mv new-service.yml service.yml
+          yq ".spec.selector.app = \"${{ env.SERVICE_NAME}}\"" service.yml > new-service.yml && mv new-service.yml service.yml
+
+          # Set service configuration (StatefulSet)
+          yq ".metadata.name = \"${{ env.SERVICE_NAME}}-stateful\"" stateful.yml > new-stateful.yml && mv new-stateful.yml stateful.yml
+          yq ".metadata.labels.app = \"${{ env.SERVICE_NAME}}\"" stateful.yml > new-stateful.yml && mv new-stateful.yml stateful.yml
+          yq ".spec.serviceName = \"${{ env.SERVICE_NAME}}\"" stateful.yml > new-stateful.yml && mv new-stateful.yml stateful.yml
+          yq ".spec.selector.matchLabels.app = \"${{ env.SERVICE_NAME}}\"" stateful.yml > new-stateful.yml && mv new-stateful.yml stateful.yml
+          yq ".spec.template.metadata.labels.app = \"${{ env.SERVICE_NAME}}\"" stateful.yml > new-stateful.yml && mv new-stateful.yml stateful.yml
+          yq ".spec.template.spec.containers[0].name = \"${{ env.SERVICE_NAME}}\"" stateful.yml > new-stateful.yml && mv new-stateful.yml stateful.yml
+          yq ".spec.template.spec.containers[0].image = \"${{ env.SERVICE_DOCKER_IMAGE_SHA_TAG }}\"" stateful.yml > new-stateful.yml && mv new-stateful.yml stateful.yml
+          yq ".spec.template.spec.containers[0].envFrom[0].configMapRef.name = \"${{ env.SERVICE_NAME}}-config\"" stateful.yml > new-stateful.yml && mv new-stateful.yml stateful.yml
 
       - name: Deploy service on the Kubernetes cluster
         uses: swiss-ai-center/common-code/.github/actions/execute-command-on-kubernetes-cluster@main
@@ -149,18 +143,32 @@ jobs:
           echo "SERVICE_DOCKER_IMAGE_SHA_TAG=$docker_image_sha_tag" >> "$GITHUB_ENV"
 
       - name: Prepare configuration files
-        uses: swiss-ai-center/common-code/.github/actions/prepare-kubernetes-configuration-files@main
-        with:
-          service-name: ${{ env.SERVICE_NAME }}
-          service-url: ${{ env.PROD_SERVICE_URL }}
-          service-docker-image-tag: ${{ env.SERVICE_DOCKER_IMAGE_SHA_TAG }}
-          configuration-files-location: ./kubernetes
-          environment: production
-          log-level: ${{ env.PROD_LOG_LEVEL }}
-          engine-urls: ${{ env.PROD_CORE_ENGINE_URLS }}
-          max-tasks: ${{ env.PROD_MAX_TASKS }}
-          engine-announce-retries: ${{ env.PROD_ENGINE_ANNOUNCE_RETRIES }}
-          engine-announce-retry-delay: ${{ env.PROD_ENGINE_ANNOUNCE_RETRY_DELAY }}
+        env:
+          SERVICE_URL: ${{ env.PROD_SERVICE_URL}}
+        run: |
+          # Set service configuration (ConfigMap)
+          yq ".metadata.name = \"${{ env.SERVICE_NAME }}-config\"" config-map.yml > new-config-map.yml && mv new-config-map.yml config-map.yml
+          yq ".metadata.labels.app = \"${{ env.SERVICE_NAME}}\"" config-map.yml > new-config-map.yml && mv new-config-map.yml config-map.yml
+
+          # Set service configuration (Ingress)
+          yq ".metadata.name = \"${{ env.SERVICE_NAME}}-ingress\"" ingress.yml > new-ingress.yml && mv new-ingress.yml ingress.yml
+          yq ".spec.rules[0].host = \"${SERVICE_URL#*://}\"" ingress.yml > new-ingress.yml && mv new-ingress.yml ingress.yml
+          yq ".spec.rules[0].http.paths[0].backend.service.name = \"${{ env.SERVICE_NAME}}-service\"" ingress.yml > new-ingress.yml && mv new-ingress.yml ingress.yml
+          yq ".spec.tls[0].hosts[0] = \"${SERVICE_URL#*://}\"" ingress.yml > new-ingress.yml && mv new-ingress.yml ingress.yml
+
+          # Set service configuration (Service)
+          yq ".metadata.name = \"${{ env.SERVICE_NAME}}-service\"" service.yml > new-service.yml && mv new-service.yml service.yml
+          yq ".spec.selector.app = \"${{ env.SERVICE_NAME}}\"" service.yml > new-service.yml && mv new-service.yml service.yml
+
+          # Set service configuration (StatefulSet)
+          yq ".metadata.name = \"${{ env.SERVICE_NAME}}-stateful\"" stateful.yml > new-stateful.yml && mv new-stateful.yml stateful.yml
+          yq ".metadata.labels.app = \"${{ env.SERVICE_NAME}}\"" stateful.yml > new-stateful.yml && mv new-stateful.yml stateful.yml
+          yq ".spec.serviceName = \"${{ env.SERVICE_NAME}}\"" stateful.yml > new-stateful.yml && mv new-stateful.yml stateful.yml
+          yq ".spec.selector.matchLabels.app = \"${{ env.SERVICE_NAME}}\"" stateful.yml > new-stateful.yml && mv new-stateful.yml stateful.yml
+          yq ".spec.template.metadata.labels.app = \"${{ env.SERVICE_NAME}}\"" stateful.yml > new-stateful.yml && mv new-stateful.yml stateful.yml
+          yq ".spec.template.spec.containers[0].name = \"${{ env.SERVICE_NAME}}\"" stateful.yml > new-stateful.yml && mv new-stateful.yml stateful.yml
+          yq ".spec.template.spec.containers[0].image = \"${{ env.SERVICE_DOCKER_IMAGE_SHA_TAG }}\"" stateful.yml > new-stateful.yml && mv new-stateful.yml stateful.yml
+          yq ".spec.template.spec.containers[0].envFrom[0].configMapRef.name = \"${{ env.SERVICE_NAME}}-config\"" stateful.yml > new-stateful.yml && mv new-stateful.yml stateful.yml
 
       - name: Deploy service on the Kubernetes cluster
         uses: swiss-ai-center/common-code/.github/actions/execute-command-on-kubernetes-cluster@main
