@@ -5,7 +5,7 @@ Summary: Chatbot for question answering over document
 Author: Swiss Ai Center
 Classifier: Programming Language :: Python :: 3
 Description-Content-Type: text/x-rst
-Requires-Dist: langchain
+Requires-Dist: langchain==0.1.1
 Requires-Dist: langchain-community
 Requires-Dist: python-dotenv
 Requires-Dist: sentence_transformers

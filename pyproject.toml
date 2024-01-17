@@ -10,7 +10,7 @@ description = "Chatbot for question answering over document"
 authors = [{ name = "Swiss Ai Center" }]
 classifiers = ["Programming Language :: Python :: 3"]
 dependencies = [
-    "langchain",
+    "langchain==0.1.1",
     "langchain-community",
     "python-dotenv",
     "sentence_transformers",
