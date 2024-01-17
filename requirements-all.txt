@@ -26,7 +26,6 @@ cffi==1.15.1
 cfgv==3.4.0
 chardet==5.2.0
 charset-normalizer==3.2.0
--e git+ssh://git@github.com/swiss-ai-center/chatbot-ollama-service.git@a9bca41a4273e845ebaa8543c2ef6b1a410f941e#egg=chatcsia
 Chroma==0.2.0
 chroma-hnswlib==0.7.2
 chromadb==0.4.5
@@ -257,7 +256,6 @@ tensorflow-io-gcs-filesystem==0.34.0
 termcolor==2.3.0
 terminado==0.18.0
 threadpoolctl==3.2.0
--e git+ssh://git@labinfo.ing.he-arc.ch/jonathan.guerne/ticc4chat.git@5e15e490ad1e4565f491e7f0168e9c9ce8be8eb6#egg=ticc4chat
 tinycss2==1.2.1
 tokenizers==0.15.0
 toml==0.10.2
