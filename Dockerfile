@@ -13,4 +13,4 @@ COPY ./app /code/app
 COPY ./static /code/static
 RUN mkdir ./vectorstores
 
-CMD ["streamlit", "run", "app/app.py", "--server.port", "8080"]
+CMD ["streamlit", "run", "app/app.py", "--server.port", "80"]
