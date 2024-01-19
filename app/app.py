@@ -70,11 +70,25 @@ st.image(Image.open(logo_path), width=300)
 
 st.title(os.getenv("CHATBOT_NAME"))
 
+st.markdown(
+    """
+    Before using this chatbot go to the
+    [Swiss Ai center app](https://frontend-core-engine-swiss-ai-center.kube.isc.heia-fr.ch/)
+    and vectorize your document with the **document vectorizer service**.\n
+
+    **Data disclaimer :** The data you upload to this chatbot is temporarily stored on the Swiss Ai server
+    and deleted after the end of the session.\n
+    The content of the conversation you have with the chatbot is not stored.\n
+    """
+)
+
 
 with st.expander("Extra info"):
     st.markdown(
         f"""
         model: {os.getenv("LLM_MODEL_NAME")}\n
+        Number of parameters: 7 billions\n
+        Created by: [mistral.ai](https://mistral.ai/)\n
         temperature: {os.getenv("LLM_TEMPERATURE")}\n
     """
     )

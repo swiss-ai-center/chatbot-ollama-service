@@ -10,6 +10,7 @@ COPY ./src /code/src
 RUN pip install /code[ui]
 
 COPY ./app /code/app
+COPY ./.streamlit /code/.streamlit
 COPY ./static /code/static
 RUN mkdir ./vectorstores
 

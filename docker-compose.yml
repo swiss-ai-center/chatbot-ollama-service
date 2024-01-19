@@ -25,3 +25,10 @@ services:
         sleep 10
         ollama pull mistral:instruct
         sleep infinity
+    # deploy: # give access to 1 gpu
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
