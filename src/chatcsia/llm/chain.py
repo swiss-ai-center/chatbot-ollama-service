@@ -11,7 +11,7 @@ from chatcsia.llm.prompt import prepare_prompt
 
 
 def prepare_chain(
-    llm: Ollama = None, prompt: PromptTemplate = None
+    llm: Ollama = None, prompt: PromptTemplate = None, language: str = "en"
 ) -> ConversationalRetrievalChain:
     """
     Prepares a retrieval-based question answering system based on a given machine and language.
@@ -33,7 +33,7 @@ def prepare_chain(
 
     if prompt is None:
         # if prompt is not provided, we use the default one
-        prompt = prepare_prompt()
+        prompt = prepare_prompt(language=language)
 
     # embedding_model = HuggingFaceEmbeddings(
     #     model_name=os.environ.get("EMBEDDINGS_MODEL_NAME", None)

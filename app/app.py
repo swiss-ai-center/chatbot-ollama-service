@@ -38,7 +38,7 @@ def extract_zip(uploaded_file, path_to_extract):
     st.session_state.zipfile_processed = True
 
 
-def setup_chain():
+def setup_chain(language: str = "en"):
     """
     Setup the chain.
 
@@ -49,7 +49,7 @@ def setup_chain():
         RetrievalQA: chain
     """
     with st.spinner("Setting up chain..."):
-        return prepare_chain()
+        return prepare_chain(language=language)
 
 
 def is_chain_empty() -> bool:
@@ -96,6 +96,8 @@ with st.expander("Extra info"):
     )
 
 if "uploaded_file" not in st.session_state:
+    st.text("Select a language")
+    st.session_state.language = st.selectbox("Language", ["en", "fr", "de", "it"])
     temp_uploaded_file = st.file_uploader("Choose a ZIP file", type="zip")
     if temp_uploaded_file is not None:
         st.session_state.uploaded_file = temp_uploaded_file
@@ -115,7 +117,7 @@ if "zipfile_processed" not in st.session_state:
     st.session_state.zipfile_processed = False
 if "uploaded_file" in st.session_state:
     if is_chain_empty():
-        chain = setup_chain()
+        chain = setup_chain(language=st.session_state.language)
     else:
         chain = st.session_state.chain
 
@@ -127,6 +129,7 @@ if st.session_state.zipfile_processed:
 
 if reset := st.button("Reset"):
     reset_session()
+
 
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
