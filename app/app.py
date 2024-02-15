@@ -72,9 +72,9 @@ st.title(os.getenv("CHATBOT_NAME"))
 
 st.markdown(
     """
-    Before using this chatbot go to the
-    [Swiss AI Center's app](https://app.swiss-ai-center.ch/)
-    and vectorize your document with the **document vectorizer service**.\n
+    Before using this chatbot go to the Swiss AI Center's
+    [App](https://frontend-core-engine-swiss-ai-center.kube.isc.heia-fr.ch/showcase/service/document-vectorizer)
+    and vectorize your document with the **Document Vectorizer service**.\n
 
     **Data disclaimer :** The data you upload to this chatbot is temporarily stored on the Swiss AI Center's server
     and deleted after the end of the session.\n
