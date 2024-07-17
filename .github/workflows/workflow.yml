@@ -121,6 +121,7 @@ jobs:
           engine-announce-retry-delay: ${{ env.DEV_ENGINE_ANNOUNCE_RETRY_DELAY }}
 
       - name: Update ollama url
+        working-directory: ./kubernetes
         run: |
           yq -i ".data.LLM_BASE_URL = \"${{ env.DEV_OLLAMA_ADDRESS }}\"" config-map.yml
 
@@ -172,6 +173,7 @@ jobs:
           engine-announce-retry-delay: ${{ env.PROD_ENGINE_ANNOUNCE_RETRY_DELAY }}
 
       - name: Update ollama url
+        working-directory: ./kubernetes
         run: |
           yq -i ".data.LLM_BASE_URL = \"${{ env.PROD_OLLAMA_ADDRESS }}\"" config-map.yml
 
