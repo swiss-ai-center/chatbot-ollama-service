@@ -2,6 +2,13 @@ FROM python:3.10
 
 WORKDIR /code
 
+ENV CHATBOT_NAME="Chatbot"
+ENV LLM_MODEL_NAME="mistral:instruct"
+ENV LLM_TEMPERATURE="0.1"
+ENV VECTORSTORES_DIR="./vectorstores"
+ENV EMBEDDINGS_MODEL_NAME="BAAI/bge-large-en-v1.5"
+ENV NB_RETRIVED_DOCS="4"
+
 COPY ./setup.py /code/setup.py
 COPY ./pyproject.toml /code/pyproject.toml
 

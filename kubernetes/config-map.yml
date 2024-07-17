@@ -5,10 +5,4 @@ metadata:
   labels:
     app: my-service
 data:
-  CHATBOT_NAME: Chatbot
-  LLM_MODEL_NAME: mistral:instruct
   LLM_BASE_URL: http://localhost:11434
-  LLM_TEMPERATURE: "0.1"
-  VECTORSTORES_DIR: ./vectorstores
-  EMBEDDINGS_MODEL_NAME: BAAI/bge-large-en-v1.5
-  NB_RETRIVED_DOCS: "4"

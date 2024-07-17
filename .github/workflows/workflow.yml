@@ -24,6 +24,8 @@ env:
   DEV_LOG_LEVEL: ${{ vars.DEV_LOG_LEVEL }}
   # Kube configuration
   DEV_KUBE_CONFIG: ${{ secrets.DEV_KUBE_CONFIG }}
+  # Ollama address
+  DEV_OLLAMA_ADDRESS: ${{ vars.DEV_OLLAMA_ADDRESS }}
 
   ## Production environment variables
   # The URLs of the Core Engine to which the service should connect
@@ -42,6 +44,8 @@ env:
   PROD_LOG_LEVEL: ${{ vars.PROD_LOG_LEVEL }}
   # Kube configuration
   PROD_KUBE_CONFIG: ${{ secrets.PROD_KUBE_CONFIG }}
+  # Ollama address
+  PROD_OLLAMA_ADDRESS: ${{ vars.PROD_OLLAMA_ADDRESS }}
 
 # Allow one concurrent deployment
 concurrency:
@@ -124,6 +128,7 @@ jobs:
         working-directory: ./kubernetes
         run: |
           yq -i ".data.LLM_BASE_URL = \"${{ env.DEV_OLLAMA_ADDRESS }}\"" config-map.yml
+          
 
       - name: Remove unnecessary keys from configuration files
         uses: swiss-ai-center/common-code/.github/actions/remove-unnecessary-keys-from-kubernetes-configuration-files@main
