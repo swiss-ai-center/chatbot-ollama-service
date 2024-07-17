@@ -26,22 +26,3 @@ spec:
         envFrom:
           - configMapRef:
               name: my-service-config
-      - name: ollama
-        image: ollama/ollama
-        ports:
-        - name: http
-          containerPort: 11434
-        command: ["/bin/bash", "-c"]
-        args:
-        - |
-          ollama serve &
-          sleep 10
-          ollama pull mistral:instruct
-          sleep infinity
-        resources:
-          requests:
-            tencent.com/vcuda-core: 20
-            tencent.com/vcuda-memory: 8
-          limits:
-            tencent.com/vcuda-core: 20
-            tencent.com/vcuda-memory: 8
