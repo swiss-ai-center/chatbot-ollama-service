@@ -72,9 +72,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Lint Python app
-        uses: swiss-ai-center/common-code/.github/actions/lint-python-app@main
-        with:
-          python-app-path: .
+        shell: bash
+        run: |
+          pip install flake8
+          flake8 .
 
   release:
     needs: review
