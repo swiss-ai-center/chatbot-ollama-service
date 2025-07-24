@@ -23,7 +23,7 @@ services:
         ollama serve &
         # wait for ollama to start bigger number may be needed for slower machines
         sleep 10
-        ollama pull mistral:instruct
+        ollama pull phi4:latest
         sleep infinity
     # deploy: # give access to 1 gpu
     #   resources:

@@ -2,8 +2,8 @@ FROM python:3.10
 
 WORKDIR /code
 
-ENV CHATBOT_NAME="Chatbot"
-ENV LLM_MODEL_NAME="mistral:instruct"
+ENV CHATBOT_NAME="Swiss AI Center Chatbot"
+ENV LLM_MODEL_NAME="phi4:latest"
 ENV LLM_TEMPERATURE="0.1"
 ENV VECTORSTORES_DIR="./vectorstores"
 ENV EMBEDDINGS_MODEL_NAME="BAAI/bge-large-en-v1.5"

@@ -69,6 +69,9 @@ logo_path = os.path.join(STATIC_FOLDERS, "img", "logo_full_white_sec.png")
 st.image(Image.open(logo_path), width=300)
 
 st.title(os.getenv("CHATBOT_NAME"))
+st.set_page_config(
+    page_title=os.getenv("CHATBOT_NAME"),
+)
 
 st.markdown(
     """
