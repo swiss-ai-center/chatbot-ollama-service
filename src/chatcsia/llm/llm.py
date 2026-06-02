@@ -2,6 +2,7 @@ import os
 from langchain.callbacks.manager import CallbackManager
 from langchain_openai import OpenAI
 
+
 def prepare_model(
         model_name: str = None,
         base_url: str = None,
