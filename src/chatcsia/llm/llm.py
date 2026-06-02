@@ -1,7 +1,7 @@
 import os
 
 from langchain.callbacks.manager import CallbackManager
-from langchain.llms.ollama import Ollama
+from langchain_openai import OpenAI
 
 
 def prepare_model(
@@ -37,7 +37,7 @@ def prepare_model(
 
     temperature = temperature or os.environ.get("LLM_TEMPERATURE", 0.2)
 
-    return Ollama(
+    return OpenAI(
         model=model_name,
         callback_manager=callback_manager,
         base_url=base_url,

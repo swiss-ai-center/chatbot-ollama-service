@@ -10,21 +10,8 @@ services:
     env_file:
       - .env
     environment:
-      LLM_BASE_URL: "http://ollama-api:11434"
+      LLM_BASE_URL: ${DEV_OLLAMA_ADDRESS}
 
-  ollama-api:
-    image: ollama/ollama
-    ports:
-      - "11434:11434"
-    entrypoint: /bin/bash
-    command:
-      - -c
-      - |
-        ollama serve &
-        # wait for ollama to start bigger number may be needed for slower machines
-        sleep 10
-        ollama pull VLLM.qwen3.5:27b
-        sleep infinity
     # deploy: # give access to 1 gpu
     #   resources:
     #     reservations:
