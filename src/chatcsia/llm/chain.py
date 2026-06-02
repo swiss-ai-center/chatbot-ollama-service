@@ -1,4 +1,5 @@
 import os
+import re
 
 from langchain.chains import ConversationalRetrievalChain, RetrievalQA
 from langchain.embeddings import HuggingFaceBgeEmbeddings
@@ -53,8 +54,7 @@ def prepare_chain(
     )
 
     NB_RETRIVED_DOCS = int(os.environ.get("NB_RETRIVED_DOCS", 4))
-
-    return RetrievalQA.from_chain_type(
+    response = RetrievalQA.from_chain_type(
         llm,
         retriever=vectorstore.as_retriever(search_kwargs={"k": NB_RETRIVED_DOCS}),
         chain_type_kwargs={"prompt": prompt},
@@ -62,6 +62,18 @@ def prepare_chain(
         output_key="answer",
         return_source_documents=True,
     )
+
+    def remove_thinking_tags(text: str) -> str:
+        """
+        Removes the thinking blocks from the model's output.
+        Handles <think> tags which are common in reasoning models.
+        """
+        # Remove everything between <think> and </think> including the tags, across multiple lines
+        cleaned_text = re.sub(r'<think>.*?</think>\s*', '', text, flags=re.DOTALL)
+
+        return cleaned_text.strip()
+
+    return remove_thinking_tags(response)
 
 
 def ask_chain(query: str, chain: ConversationalRetrievalChain) -> str:
