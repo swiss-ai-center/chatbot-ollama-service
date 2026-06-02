@@ -35,6 +35,7 @@ def prepare_model(
     model_kwargs = {
         "model": model_name,
         "callback_manager": callback_manager,
+        "openai_api_key" : "fake_keys"
         "temperature": temperature,
         "stop": ["[/INST]", "</s>", "<|im_end|>", "<</SYS>>"],
     }
