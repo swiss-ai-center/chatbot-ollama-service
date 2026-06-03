@@ -10,6 +10,7 @@ from langchain.vectorstores.faiss import FAISS
 from chatcsia.llm.llm import prepare_model
 from chatcsia.llm.prompt import prepare_prompt
 
+
 def remove_thinking_tags(text: str) -> str:
     """
     Removes the thinking blocks from the model's output.
@@ -19,6 +20,7 @@ def remove_thinking_tags(text: str) -> str:
     cleaned_text = re.sub(r'<think>.*?</think>\s*', '', text, flags=re.DOTALL)
 
     return cleaned_text.strip()
+
 
 def prepare_chain(
     llm: Ollama = None, prompt: PromptTemplate = None, language: str = "en"
