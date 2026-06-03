@@ -160,7 +160,7 @@ if "uploaded_file" in st.session_state:
         with st.spinner("Thinking..."):
             response = ask_chain(prompt, chain)
             with st.chat_message("assistant"):
-                st.markdown(response["answer"])
+                st.markdown(remove_thinking_tags(response["answer"]))
 
             with st.expander("Sources"):
                 for source in response["sources"]:
