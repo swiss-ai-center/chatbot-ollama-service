@@ -159,7 +159,6 @@ if "uploaded_file" in st.session_state:
 
         with st.spinner("Thinking..."):
             response = ask_chain(prompt, chain)
-            response["answer"] = remove_thinking_tags(response["answer"])
             with st.chat_message("assistant"):
                 st.markdown(response["answer"])
 
@@ -168,5 +167,5 @@ if "uploaded_file" in st.session_state:
                     st.write(source)
 
             st.session_state.messages.append(
-                {"role": "assistant", "text": response["answer"]}
+                {"role": "assistant", "text": remove_thinking_tags(response["answer"])}
             )
