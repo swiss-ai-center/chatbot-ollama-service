@@ -1,4 +1,5 @@
 import os
+import re
 import zipfile
 import tempfile
 import shutil
@@ -19,6 +20,17 @@ if not os.path.exists(VECTORSTORES_DIR):
 STATIC_FOLDERS = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "static"
 )
+
+
+def remove_thinking_tags(text: str) -> str:
+    """
+    Removes the thinking blocks from the model's output.
+    Handles <think> tags which are common in reasoning models.
+    """
+    # Remove everything between <think> and </think> including the tags, across multiple lines
+    cleaned_text = re.sub(r'<think>.*?</think>\s*', '', text, flags=re.DOTALL)
+
+    return cleaned_text.strip()
 
 
 def reset_session():
@@ -147,6 +159,7 @@ if "uploaded_file" in st.session_state:
 
         with st.spinner("Thinking..."):
             response = ask_chain(prompt, chain)
+            response["answer"] = remove_thinking_tags(response["answer"])
             with st.chat_message("assistant"):
                 st.markdown(response["answer"])
 

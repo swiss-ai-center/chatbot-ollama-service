@@ -1,5 +1,4 @@
 import os
-import re
 
 from langchain.chains import ConversationalRetrievalChain, RetrievalQA
 from langchain.embeddings import HuggingFaceBgeEmbeddings
@@ -9,17 +8,6 @@ from langchain.vectorstores.faiss import FAISS
 
 from chatcsia.llm.llm import prepare_model
 from chatcsia.llm.prompt import prepare_prompt
-
-
-def remove_thinking_tags(text: str) -> str:
-    """
-    Removes the thinking blocks from the model's output.
-    Handles <think> tags which are common in reasoning models.
-    """
-    # Remove everything between <think> and </think> including the tags, across multiple lines
-    cleaned_text = re.sub(r'<think>.*?</think>\s*', '', text, flags=re.DOTALL)
-
-    return cleaned_text.strip()
 
 
 def prepare_chain(
@@ -73,7 +61,6 @@ def prepare_chain(
         output_key="answer",
         return_source_documents=True,
     )
-    print(response)
     return response
 
 
